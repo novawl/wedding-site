@@ -1,0 +1,102 @@
+/* Wrapper around the RSVP button (optional) */
+.rsvp-wrapper {
+  position: relative;
+  font-family: Arial, sans-serif;
+}
+
+/* The RSVP button */
+.rsvp-button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.rsvp-button:hover {
+  background-color: #333;
+}
+
+/* The semi-transparent backdrop behind the modal */
+.rsvp-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998; /* ensure it's above other content */
+}
+
+/* The modal/prompt container */
+.rsvp-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  width: 90%;
+  max-width: 500px;
+  padding: 1.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 9999; /* above the backdrop */
+  border-radius: 6px;
+}
+
+/* The form inside the modal */
+.rsvp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rsvp-form h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+/* Each field label + input/textarea */
+.rsvp-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.rsvp-field label {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+/* Text inputs and textarea */
+.rsvp-field input[type="text"],
+.rsvp-field input[type="email"],
+.rsvp-field textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Radio group styling */
+.radio-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.25rem;
+}
+
+/* Submit button */
+.rsvp-submit-button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  align-self: flex-start;
+  border-radius: 4px;
+}
+
+.rsvp-submit-button:hover {
+  background-color: #333;
+}

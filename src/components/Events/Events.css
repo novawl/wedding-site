@@ -1,0 +1,60 @@
+.events-container {
+  max-width: 600px;
+  margin: 0;
+  padding: 20px;
+  font-family: 'EB Garamond', serif;
+  text-align: center;
+  color: #4B575E;
+}
+
+.events-date {
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+
+/* Each event block */
+.event {
+  margin-bottom: 2.5rem;
+}
+
+.event-header {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  /* You can adjust spacing, borders, or other styles as desired */
+  margin-bottom: 0.5rem;
+}
+
+.event-title {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 5px; /* Remove default margin for alignment */
+}
+
+.event-time {
+  font-size: 0.8rem;
+}
+
+.event-location {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  font-size: 0.8rem;
+  margin-bottom: 0.2rem;
+  margin: 5px;
+}
+
+.event-address {
+  display: flex;
+  justify-content: left;
+  font-size: 0.8rem;
+  margin: 5px;
+}
+
+.location-icon {
+  margin-right: 0.4rem;
+  color: #777768;
+  font-size: 0.8rem; /* Adjust this value to make the icon larger or smaller */
+}
+

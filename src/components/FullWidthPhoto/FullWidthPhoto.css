@@ -1,0 +1,50 @@
+.photo-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .background-image {
+    width: 100%;
+    height: auto; /* Keeps aspect ratio */
+    display: block;
+  }
+  
+  .overlay-text {
+    position: absolute;
+    top: 16.8%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    /* Optional: add a background for readability */
+    border-radius: 8px;
+  }
+  
+  .overlay-text h1 {
+    font-family: 'EB Garamond', cursive;
+    font-size: 2.2rem;        /* Adjust header size */
+    font-weight: 400;       /* Bold weight */
+    margin: 0 0;       /* Adjust spacing as needed */
+    white-space: nowrap;
+    color: #4B575E;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .subtitle-text {
+    position: absolute;
+    top: 23%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    /* Optional: add a background for readability */
+
+    border-radius: 8px;
+    font-family: 'EB Garamond';
+    color: #4B575E;
+    font-size: 0.9rem;      /* Adjust paragraph size */
+    margin-top: 0;     
+  }
