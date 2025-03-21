@@ -2,7 +2,20 @@
 .rsvp-wrapper {
   position: relative;
   font-family: 'EB Garamond', serif;
-  margin-bottom: 1rem;
+}
+
+/* The decline button */
+.decline-button {
+  background-color: transparent;
+  color: #4B575E;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-radius: 8px;
+  font-family: 'EB Garamond', serif;
+  width: 10rem;
 }
 
 /* The RSVP button */
@@ -16,10 +29,7 @@
   transition: background-color 0.2s ease;
   border-radius: 8px;
   font-family: 'EB Garamond', serif;
-}
-
-.rsvp-button:hover {
-  background-color: #4B575E;
+  width: 10rem;
 }
 
 /* The semi-transparent backdrop behind the modal */
@@ -102,10 +112,27 @@ body.modal-open {
   margin-bottom: 0.1rem;
   font-family: 'EB Garamond', serif;
 }
-
 .rsvp-submit-button:hover {
   background-color: #333;
 }
+
+.decline-submit-button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  align-self: center;
+  border-radius: 8px;
+  margin-top: 0.9rem;
+  margin-bottom: 0.1rem;
+  font-family: 'EB Garamond', serif;
+}
+
+.decline-submit-button:hover {
+  background-color: #333;
+}
+
 
 .input-container {
   position: relative;
@@ -153,8 +180,15 @@ body.modal-open {
     padding: 1.8rem;
   }
   
-  .rsvp-button, .rsvp-submit-button {
+  .rsvp-button, .rsvp-submit-button, .decline-submit-button {
     padding: 0.55rem 1rem;
     font-size: 0.9rem;
+  }
+
+  .decline-button {
+    padding: 0.55rem 1rem;
+    font-size: 0.9rem;
+    background-color: transparent;
+    border: 1px solid #4B575E;
   }
 }

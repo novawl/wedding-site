@@ -7,7 +7,8 @@
 }
   
 .attending-title {
-  margin-bottom: 1rem;
+  margin-top: 0.7rem;
+  margin-bottom: 2rem;
   font-family: "EB Garamond", serif; /* or any preferred font */
   color: #4B575E;
   font-size: 1.5rem;

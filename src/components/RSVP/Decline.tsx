@@ -20,7 +20,7 @@ const DeclineForm: React.FC = () => {
   // Ref for the modal content to detect outside clicks
   const formRef = useRef<HTMLDivElement>(null);
   // Refs for the textareas to auto-resize them
-  const commentsTextAreaRef = useRef<HTMLTextAreaElement>(null);
+  const commentsTextAreaRef2 = useRef<HTMLTextAreaElement>(null);
 
   // Handle clicks outside of the form to close the prompt
   useEffect(() => {
@@ -45,12 +45,12 @@ const DeclineForm: React.FC = () => {
   // Effect to auto-resize textareas when the form is shown or when the text changes
   useEffect(() => {
     if (showDeclineForm) {
-      if (commentsTextAreaRef.current) {
-        commentsTextAreaRef.current.style.height = "auto";
-        commentsTextAreaRef.current.style.height = `${commentsTextAreaRef.current.scrollHeight}px`;
+      if (commentsTextAreaRef2.current) {
+        commentsTextAreaRef2.current.style.height = "auto";
+        commentsTextAreaRef2.current.style.height = `${commentsTextAreaRef2.current.scrollHeight}px`;
       }
     }
-  }, [showDeclineForm, declineFormData.comments, declineFormData.comments]);
+  }, [showDeclineForm, declineFormData.comments]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -93,7 +93,7 @@ const DeclineForm: React.FC = () => {
   return (
     <div className="rsvp-wrapper">
       {/* The button that toggles the RSVP prompt */}
-      <button className="rsvp-button" onClick={() => setShowDeclineForm(true)}>
+      <button className="decline-button" onClick={() => setShowDeclineForm(true)}>
         Decline with regret
       </button>
 
@@ -106,22 +106,22 @@ const DeclineForm: React.FC = () => {
               <div className="input-container">
                 <FontAwesomeIcon icon={faHeart} className="icon" />
                 <textarea
-                  ref={commentsTextAreaRef}
-                  name="name"
+                  ref={commentsTextAreaRef2}
+                  name="comments"
                   placeholder="Please feel free to leave us a note or some kind words – your thoughts mean a lot to us."
                   value={declineFormData.comments}
                   onChange={(e) => {
                     handleChange(e);
-                    if (commentsTextAreaRef.current) {
-                      commentsTextAreaRef.current.style.height = "auto";
-                      commentsTextAreaRef.current.style.height = `${commentsTextAreaRef.current.scrollHeight}px`;
+                    if (commentsTextAreaRef2.current) {
+                        commentsTextAreaRef2.current.style.height = "auto";
+                        commentsTextAreaRef2.current.style.height = `${commentsTextAreaRef2.current.scrollHeight}px`;
                     }
                   }}
                   rows={1}
                 />
               </div>
 
-              <button type="submit" className="rsvp-submit-button">
+              <button type="submit" className="decline-submit-button">
                 Sorry, I can’t make it
               </button>
             </form>

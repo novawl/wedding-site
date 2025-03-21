@@ -18,7 +18,7 @@ function App() {
         {/* <section id="dresscode" style={{ margin: '2rem 0', textAlign: 'center' }}>
           <DressCodeButton />
         </section> */}
-        <section id="events" style={{ margin: '1rem 0' }}>
+        <section id="events">
           <Events />
         </section>
         <section id="attending">
