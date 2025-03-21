@@ -16,6 +16,7 @@
   border-radius: 8px;
   font-family: 'EB Garamond', serif;
   width: 10rem;
+  height: 2.1rem;
 }
 
 /* The RSVP button */
@@ -30,6 +31,7 @@
   border-radius: 8px;
   font-family: 'EB Garamond', serif;
   width: 10rem;
+  height: 2.1rem;
 }
 
 /* The semi-transparent backdrop behind the modal */
