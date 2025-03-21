@@ -1,0 +1,127 @@
+/* Wrapper around the RSVP button (optional) */
+.rsvp-wrapper {
+    position: relative;
+    font-family: 'EB Garamond', serif;
+  }
+  
+  /* The RSVP button */
+  .rsvp-button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-radius: 8px;
+    font-family: 'EB Garamond', serif;
+  }
+  
+  .rsvp-button:hover {
+    background-color: #333;
+  }
+  
+  /* The semi-transparent backdrop behind the modal */
+  .rsvp-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+  }
+  
+  /* The modal/prompt container */
+  .rsvp-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    border-radius: 6px;
+  }
+  
+  /* The form inside the modal */
+  .rsvp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .rsvp-form h2 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #4B575E;
+    font-family: 'EB Garamond', serif;
+  }
+  
+  /* Text inputs and textarea */
+  .rsvp-field input[type="text"],
+  .rsvp-field input[type="email"],
+  .rsvp-field textarea {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  /* Submit button */
+  .rsvp-submit-button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    align-self: center;
+    border-radius: 8px;
+    margin-top: 0.9rem;
+    margin-bottom: 0.1rem;
+    font-family: 'EB Garamond', serif;
+  }
+  
+  .rsvp-submit-button:hover {
+    background-color: #333;
+  }
+  
+  .input-container {
+    position: relative;
+    flex: 1 1 calc(50% - 1rem); /* 2 boxes per row on larger screens */
+    display: flex;
+    align-items: center;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    padding: 0.75rem;
+  }
+  
+  .icon {
+    margin-right: 0.5rem;
+    color: #bbb;
+    font-size: 0.8rem;
+  }
+  
+  .input-container input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 0.8rem;
+    color: #333;
+    font-family: 'EB Garamond', serif;
+  }
+  
+  /* Media Query for smaller screens */
+  @media (max-width: 400px) {
+    .rsvp-modal {
+      width: 70%;
+      padding: 1.8rem;
+    }
+    
+    .rsvp-button, .rsvp-submit-button {
+      padding: 0.55rem 1rem;
+      font-size: 0.9rem;
+    }
+  }
+  

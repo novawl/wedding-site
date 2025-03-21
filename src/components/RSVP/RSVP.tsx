@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./RSVP.css";
 
+/* Font Awesome Icons */
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faUsers, faMusic, faComment } from "@fortawesome/free-solid-svg-icons";
+
 interface RSVPFormData {
   name: string;
   guests: string;
@@ -12,13 +16,13 @@ const RSVPForm: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
 
   // Store form data in state (remains even if form is hidden)
-  const [formData, setFormData] = useState<RSVPFormData>({
-    name: "Your name",
-    guests: "Number of guests",
-    songs: "Your favirote songs",
-    comments: "Anything you want us to know",
+  const [formData, setFormData] = useState<RSVPFormData>({      
+    name: "",
+    guests: "", 
+    songs: "",
+    comments: "",
   });
-
+  
   // Ref for the modal content to detect outside clicks
   const formRef = useRef<HTMLDivElement>(null);
 
@@ -44,6 +48,7 @@ const RSVPForm: React.FC = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showForm]);
+    
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -57,10 +62,9 @@ const RSVPForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Replace this with your actual Apps Script Web App URL
+    // Example: sending to Google Sheets or any other endpoint
+    // Replace with your actual Apps Script / server endpoint
     const scriptURL = "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec";
-
     try {
       const response = await fetch(scriptURL, {
         method: "POST",
@@ -69,17 +73,15 @@ const RSVPForm: React.FC = () => {
         },
         body: JSON.stringify(formData),
       });
-
       if (response.ok) {
         alert("Form submitted successfully!");
-        // Clear form data upon successful submission
+        // Reset the form if desired
         setFormData({
           name: "",
           guests: "",
           songs: "",
           comments: "",
         });
-        // Optionally close the form after submission
         setShowForm(false);
       } else {
         alert("Something went wrong. Please try again.");
@@ -94,61 +96,74 @@ const RSVPForm: React.FC = () => {
     <div className="rsvp-wrapper">
       {/* The button that toggles the RSVP prompt */}
       <button className="rsvp-button" onClick={() => setShowForm(true)}>
-        RSVP
+        Accept with pleasure
       </button>
 
       {showForm && (
         <div className="rsvp-backdrop">
           <div className="rsvp-modal" ref={formRef}>
             <form className="rsvp-form" onSubmit={handleSubmit}>
-              <h2>RSVP</h2>
-              <div className="rsvp-field">
-                <label htmlFor="Name">Name</label>
+              <h2>We're thrilled you can make it!</h2>
+
+              <div className="input-container">
+                <FontAwesomeIcon icon={faUser} className="icon" />
                 <input
-                  id="name"
                   type="text"
                   name="name"
+                  placeholder="Your name"
                   value={formData.name}
                   onChange={handleChange}
                   required
                 />
               </div>
 
-              <div className="rsvp-field">
-                <label htmlFor="songs">Your favirote songs</label>
+              <div className="input-container">
+                <FontAwesomeIcon icon={faUsers} className="icon" />
                 <input
-                  id="songs"
                   type="text"
-                  name="songs"
-                  value={formData.songs}
+                  name="guests"
+                  placeholder="Number of guests"
+                  value={formData.guests}
                   onChange={handleChange}
                   required
                 />
               </div>
 
-              <div className="rsvp-field">
-                <label htmlFor="guests">Names of Guests in your Party</label>
-                <input
-                  id="guests"
-                  type="text"
-                  name="guests"
-                  value={formData.guests}
-                  onChange={handleChange}
+              <div className="input-container">
+                <FontAwesomeIcon icon={faMusic} className="icon" />
+                <textarea
+                  name="songs"
+                  placeholder="Your favorite songs"
+                  value={formData.songs}
+                  onChange={(e) => {
+                    handleChange(e);
+                    // Reset height and then set to the scrollHeight to auto-adjust
+                    e.target.style.height = "auto";
+                    e.target.style.height = `${e.target.scrollHeight}px`;
+                  }}
+                  rows={1}
+                  required
                 />
               </div>
 
-              <div className="rsvp-field">
-                <label htmlFor="comments">Questions or Comments</label>
+              <div className="input-container">
+                <FontAwesomeIcon icon={faComment} className="icon" />
                 <textarea
-                  id="comments"
                   name="comments"
+                  placeholder="Things you'd like use to know"
                   value={formData.comments}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    handleChange(e);
+                    // Reset height and then set to the scrollHeight to auto-adjust
+                    e.target.style.height = "auto";
+                    e.target.style.height = `${e.target.scrollHeight}px`;
+                  }}
+                  rows={1}
                 />
               </div>
 
               <button type="submit" className="rsvp-submit-button">
-                Submit
+                Count me in!
               </button>
             </form>
           </div>
