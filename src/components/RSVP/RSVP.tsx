@@ -2,12 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import "./RSVP.css";
 
 interface RSVPFormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  attending: string; // "yes" or "no"
+  name: string;
   guests: string;
-  restrictions: string;
+  songs: string;
   comments: string;
 }
 
@@ -16,13 +13,10 @@ const RSVPForm: React.FC = () => {
 
   // Store form data in state (remains even if form is hidden)
   const [formData, setFormData] = useState<RSVPFormData>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    attending: "",
-    guests: "",
-    restrictions: "",
-    comments: "",
+    name: "Your name",
+    guests: "Number of guests",
+    songs: "Your favirote songs",
+    comments: "Anything you want us to know",
   });
 
   // Ref for the modal content to detect outside clicks
@@ -80,12 +74,9 @@ const RSVPForm: React.FC = () => {
         alert("Form submitted successfully!");
         // Clear form data upon successful submission
         setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          attending: "",
+          name: "",
           guests: "",
-          restrictions: "",
+          songs: "",
           comments: "",
         });
         // Optionally close the form after submission
@@ -112,67 +103,27 @@ const RSVPForm: React.FC = () => {
             <form className="rsvp-form" onSubmit={handleSubmit}>
               <h2>RSVP</h2>
               <div className="rsvp-field">
-                <label htmlFor="firstName">First Name (required)</label>
+                <label htmlFor="Name">Name</label>
                 <input
-                  id="firstName"
+                  id="name"
                   type="text"
-                  name="firstName"
-                  value={formData.firstName}
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
                   required
                 />
               </div>
 
               <div className="rsvp-field">
-                <label htmlFor="lastName">Last Name (required)</label>
+                <label htmlFor="songs">Your favirote songs</label>
                 <input
-                  id="lastName"
+                  id="songs"
                   type="text"
-                  name="lastName"
-                  value={formData.lastName}
+                  name="songs"
+                  value={formData.songs}
                   onChange={handleChange}
                   required
                 />
-              </div>
-
-              <div className="rsvp-field">
-                <label htmlFor="email">Email (required)</label>
-                <input
-                  id="email"
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              <div className="rsvp-field">
-                <label>Will you be attending? (required)</label>
-                <div className="radio-group">
-                  <label>
-                    <input
-                      type="radio"
-                      name="attending"
-                      value="yes"
-                      checked={formData.attending === "yes"}
-                      onChange={handleChange}
-                      required
-                    />
-                    Yes
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="attending"
-                      value="no"
-                      checked={formData.attending === "no"}
-                      onChange={handleChange}
-                      required
-                    />
-                    No
-                  </label>
-                </div>
               </div>
 
               <div className="rsvp-field">
@@ -182,17 +133,6 @@ const RSVPForm: React.FC = () => {
                   type="text"
                   name="guests"
                   value={formData.guests}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="rsvp-field">
-                <label htmlFor="restrictions">Any food restrictions?</label>
-                <input
-                  id="restrictions"
-                  type="text"
-                  name="restrictions"
-                  value={formData.restrictions}
                   onChange={handleChange}
                 />
               </div>

@@ -1,7 +1,7 @@
 /* Wrapper around the RSVP button (optional) */
 .rsvp-wrapper {
   position: relative;
-  font-family: Arial, sans-serif;
+  font-family: 'EB Garamond', serif;
 }
 
 /* The RSVP button */
@@ -27,7 +27,7 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 9998; /* ensure it's above other content */
+  z-index: 9998;
 }
 
 /* The modal/prompt container */
@@ -37,11 +37,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
-  width: 90%;
-  max-width: 500px;
+  width: 70%;
+  max-width: 400px;
   padding: 1.5rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  z-index: 9999; /* above the backdrop */
+  z-index: 9999;
   border-radius: 6px;
 }
 
@@ -99,4 +99,17 @@
 
 .rsvp-submit-button:hover {
   background-color: #333;
+}
+
+/* Media Query for smaller screens */
+@media (max-width: 400px) {
+  .rsvp-modal {
+    width: 70%;
+    padding: 1rem;
+  }
+  
+  .rsvp-button, .rsvp-submit-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
 }
