@@ -76,14 +76,17 @@ const RSVPForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Replace with your actual Apps Script / server endpoint
-    const scriptURL = "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxwVpDJLqwj1oJkuV8AkHBd08SVi75malu8I2hgWYLwjy64l0WixE40FclqnBtK9hY/exec";
     try {
       const response = await fetch(scriptURL, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify(formData),
+        body: new URLSearchParams({
+          ...formData,
+          type: "responses"
+        }).toString(),
       });
       if (response.ok) {
         alert("Form submitted successfully!");
