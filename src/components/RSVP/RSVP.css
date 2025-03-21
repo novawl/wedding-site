@@ -2,11 +2,12 @@
 .rsvp-wrapper {
   position: relative;
   font-family: 'EB Garamond', serif;
+  margin-bottom: 1rem;
 }
 
 /* The RSVP button */
 .rsvp-button {
-  background-color: #333;
+  background-color: #4B575E;
   color: #fff;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -18,7 +19,7 @@
 }
 
 .rsvp-button:hover {
-  background-color: #333;
+  background-color: #4B575E;
 }
 
 /* The semi-transparent backdrop behind the modal */
@@ -30,6 +31,9 @@
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9998;
+  display: flex;
+  align-items: center;      /* Center the modal vertically */
+  justify-content: center;
 }
 
 /* The modal/prompt container */
@@ -41,7 +45,14 @@
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   z-index: 9999;
-  border-radius: 6px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  max-height: 80vh;
+  overflow-y: auto; 
+}
+
+body.modal-open {
+  overflow: hidden;
 }
 
 /* The form inside the modal */
@@ -72,7 +83,6 @@
 
 /* Text inputs and textarea */
 .rsvp-field input[type="text"],
-.rsvp-field input[type="email"],
 .rsvp-field textarea {
   padding: 0.5rem;
   border: 1px solid #ccc;
@@ -139,7 +149,7 @@
 /* Media Query for smaller screens */
 @media (max-width: 400px) {
   .rsvp-modal {
-    width: 70%;
+    width: 82% !important;
     padding: 1.8rem;
   }
   

@@ -2,10 +2,9 @@ import React from 'react';
 import './App.css';
 import FullWidthPhoto from './components/FullWidthPhoto/FullWidthPhoto';
 import Events from './components/Events/Events';
-import AcceptForm from './components/RSVP/RSVP';
-import DeclineForm from './components/RSVP/Decline';
 import Header from './components/Header/Header';
 import DressCodeButton from './components/DressCode/DressCode';
+import Attending from './components/RSVP/Attending';
 
 function App() {
   return (
@@ -22,9 +21,8 @@ function App() {
         <section id="events" style={{ margin: '1rem 0' }}>
           <Events />
         </section>
-        <section id="rsvp" style={{ margin: '1rem 0' }}>
-          <AcceptForm />
-          <DeclineForm />
+        <section id="attending">
+          <Attending />
         </section>
       </main>
     </div>

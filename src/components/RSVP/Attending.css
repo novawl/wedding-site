@@ -1,0 +1,28 @@
+.attending-section {
+  text-align: center;
+  max-width: 800px; /* Optional: constrain the width */
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+  
+.attending-title {
+  margin-bottom: 1rem;
+  font-family: "EB Garamond", serif; /* or any preferred font */
+  color: #4B575E;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+  
+.attending-buttons {
+  display: flex;
+  flex-wrap: wrap; /* Wrap if you want them to stack on small screens */
+  gap: 1rem;
+  justify-content: center;
+  flex-direction: column;
+}
+  
+.attending-buttons > * {
+  flex: 0 1 auto; /* Each form or button can size itself */
+}
+  

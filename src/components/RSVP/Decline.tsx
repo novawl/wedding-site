@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import "./Decline.css";
+import "./RSVP.css";
 
 /* Font Awesome Icons */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,17 +16,16 @@ const DeclineForm: React.FC = () => {
   const [declineFormData, setDeclineFormData] = useState<DecilneFormData>({
     comments: "",
   });
-  
+
   // Ref for the modal content to detect outside clicks
   const formRef = useRef<HTMLDivElement>(null);
+  // Refs for the textareas to auto-resize them
+  const commentsTextAreaRef = useRef<HTMLTextAreaElement>(null);
 
   // Handle clicks outside of the form to close the prompt
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        formRef.current &&
-        !formRef.current.contains(event.target as Node)
-      ) {
+      if (formRef.current && !formRef.current.contains(event.target as Node)) {
         setShowDeclineForm(false);
       }
     }
@@ -43,6 +42,15 @@ const DeclineForm: React.FC = () => {
     };
   }, [showDeclineForm]);
     
+  // Effect to auto-resize textareas when the form is shown or when the text changes
+  useEffect(() => {
+    if (showDeclineForm) {
+      if (commentsTextAreaRef.current) {
+        commentsTextAreaRef.current.style.height = "auto";
+        commentsTextAreaRef.current.style.height = `${commentsTextAreaRef.current.scrollHeight}px`;
+      }
+    }
+  }, [showDeclineForm, declineFormData.comments, declineFormData.comments]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -56,7 +64,6 @@ const DeclineForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Example: sending to Google Sheets or any other endpoint
     // Replace with your actual Apps Script / server endpoint
     const scriptURL = "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec";
     try {
@@ -98,12 +105,19 @@ const DeclineForm: React.FC = () => {
 
               <div className="input-container">
                 <FontAwesomeIcon icon={faHeart} className="icon" />
-                <input
-                  type="text"
+                <textarea
+                  ref={commentsTextAreaRef}
                   name="name"
                   placeholder="Please feel free to leave us a note or some kind words – your thoughts mean a lot to us."
                   value={declineFormData.comments}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    handleChange(e);
+                    if (commentsTextAreaRef.current) {
+                      commentsTextAreaRef.current.style.height = "auto";
+                      commentsTextAreaRef.current.style.height = `${commentsTextAreaRef.current.scrollHeight}px`;
+                    }
+                  }}
+                  rows={1}
                 />
               </div>
 
