@@ -1,6 +1,5 @@
 .attending-section {
   text-align: center;
-  max-width: 800px; /* Optional: constrain the width */
   padding: 1rem;
   display: flex;
   flex-direction: column;
