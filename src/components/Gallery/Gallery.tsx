@@ -19,35 +19,41 @@ const Gallery: React.FC<GalleryProps> = ({ items }) => {
   // ----- Zoom / Pinch States -----
   const [pinchMode, setPinchMode] = useState(false);
   const [initialPinchDistance, setInitialPinchDistance] = useState<number | null>(null);
+  const [initialScale, setInitialScale] = useState(1);
   const [scale, setScale] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [lastTouchPositions, setLastTouchPositions] = useState({ x: 0, y: 0 });
+  const [pinchCenter, setPinchCenter] = useState({ x: 0, y: 0 });
+  const [pinchStartOffset, setPinchStartOffset] = useState({ x: 0, y: 0 });
 
   // ----- Swipe States (only when scale === 1) -----
   const [swipeStartX, setSwipeStartX] = useState<number | null>(null);
   const [swipeOffset, setSwipeOffset] = useState(0);
   const [transitionEnabled, setTransitionEnabled] = useState(false);
 
-  // ----- Carousel Container Width -----
+  // ----- Carousel Container Dimensions -----
   const modalContentRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
+  const [containerHeight, setContainerHeight] = useState(0);
 
-  // Measure container width when modal opens or on window resize
+  // Measure container dimensions when modal opens or on window resize
   useLayoutEffect(() => {
-    const measureWidth = () => {
+    const measureDimensions = () => {
       if (modalContentRef.current) {
-        setContainerWidth(modalContentRef.current.getBoundingClientRect().width);
+        const rect = modalContentRef.current.getBoundingClientRect();
+        setContainerWidth(rect.width);
+        setContainerHeight(rect.height);
       }
     };
-    measureWidth();
-    window.addEventListener('resize', measureWidth);
-    return () => window.removeEventListener('resize', measureWidth);
+    measureDimensions();
+    window.addEventListener('resize', measureDimensions);
+    return () => window.removeEventListener('resize', measureDimensions);
   }, [selectedIndex]);
 
   // Reset gesture states when modal changes
   useEffect(() => {
     setPinchMode(false);
     setInitialPinchDistance(null);
+    setInitialScale(1);
     setScale(1);
     setOffset({ x: 0, y: 0 });
     setSwipeOffset(0);
@@ -82,26 +88,33 @@ const Gallery: React.FC<GalleryProps> = ({ items }) => {
   const openModal = (index: number) => setSelectedIndex(index);
   const closeModal = () => setSelectedIndex(null);
 
+  // For panning when zoomed
+  const [lastTouchPositions, setLastTouchPositions] = useState({ x: 0, y: 0 });
+
   // ----- Touch Handlers -----
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     setTransitionEnabled(false);
 
     if (e.touches.length === 2) {
-      // Pinch-to-zoom
+      // Start pinch-to-zoom
       const t1 = e.touches[0];
       const t2 = e.touches[1];
       setPinchMode(true);
       const dx = t2.clientX - t1.clientX;
       const dy = t2.clientY - t1.clientY;
-      setInitialPinchDistance(Math.sqrt(dx * dx + dy * dy));
-      setLastTouchPositions({
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      setInitialPinchDistance(distance);
+      setInitialScale(scale);
+      setPinchStartOffset(offset);
+      const center = {
         x: (t1.clientX + t2.clientX) / 2,
         y: (t1.clientY + t2.clientY) / 2,
-      });
+      };
+      setPinchCenter(center);
     } else if (e.touches.length === 1) {
       const touch = e.touches[0];
       if (scale > 1) {
-        // Pan zoomed image
+        // Begin panning the zoomed image
         setLastTouchPositions({ x: touch.clientX, y: touch.clientY });
       } else {
         // Begin swipe gesture
@@ -118,8 +131,21 @@ const Gallery: React.FC<GalleryProps> = ({ items }) => {
       const dx = t2.clientX - t1.clientX;
       const dy = t2.clientY - t1.clientY;
       const distance = Math.sqrt(dx * dx + dy * dy);
-      const newScale = distance / initialPinchDistance;
-      setScale(newScale < 1 ? 1 : newScale);
+      const newScale = initialScale * (distance / initialPinchDistance);
+      const clampedScale = newScale < 1 ? 1 : newScale;
+      // Compute new offset so that the pinchCenter remains stationary
+      let newOffset = {
+        x: pinchCenter.x - (clampedScale / initialScale) * (pinchCenter.x - pinchStartOffset.x),
+        y: pinchCenter.y - (clampedScale / initialScale) * (pinchCenter.y - pinchStartOffset.y),
+      };
+      // Clamp the offset to keep the image covering the modal area
+      const minOffsetX = containerWidth - containerWidth * clampedScale;
+      const minOffsetY = containerHeight - containerHeight * clampedScale;
+      newOffset.x = Math.min(0, Math.max(newOffset.x, minOffsetX));
+      newOffset.y = Math.min(0, Math.max(newOffset.y, minOffsetY));
+
+      setScale(clampedScale);
+      setOffset(newOffset);
       return;
     }
 
@@ -128,8 +154,16 @@ const Gallery: React.FC<GalleryProps> = ({ items }) => {
       const { clientX, clientY } = e.touches[0];
       const deltaX = clientX - lastTouchPositions.x;
       const deltaY = clientY - lastTouchPositions.y;
-      setOffset((prev) => ({ x: prev.x + deltaX, y: prev.y + deltaY }));
       setLastTouchPositions({ x: clientX, y: clientY });
+      setOffset((prev) => {
+        let newX = prev.x + deltaX;
+        let newY = prev.y + deltaY;
+        const minX = containerWidth - containerWidth * scale;
+        const minY = containerHeight - containerHeight * scale;
+        newX = Math.min(0, Math.max(newX, minX));
+        newY = Math.min(0, Math.max(newY, minY));
+        return { x: newX, y: newY };
+      });
       return;
     }
 
@@ -148,9 +182,12 @@ const Gallery: React.FC<GalleryProps> = ({ items }) => {
       setTransitionEnabled(true);
 
       if (pinchMode) {
-        // End pinch mode
         setPinchMode(false);
-        if (scale < 1) setScale(1);
+        // If nearly zoomed out, snap back to 1 and reset offset
+        if (Math.abs(scale - 1) < 0.05) {
+          setScale(1);
+          setOffset({ x: 0, y: 0 });
+        }
       } else if (scale === 1 && swipeStartX !== null) {
         // If swipe exceeds threshold, update current image; otherwise, snap back
         if (Math.abs(swipeOffset) > SWIPE_THRESHOLD) {
