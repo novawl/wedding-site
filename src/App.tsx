@@ -5,40 +5,26 @@ import Events from './components/Events/Events';
 import Header from './components/Header/Header';
 import DressCodeButton from './components/DressCode/DressCode';
 import Attending from './components/RSVP/Attending';
-import Gallery from './components/Gallery/Gallery';
+import Gallery, { GalleryItem } from './components/Gallery/Gallery';
 
 function App() {
-  const galleryItems = [
+  const galleryItems: GalleryItem[] = [
     {
       image: '/images/1.jpeg',
-      title: 'Billboard Magazine, October 2023',
-      description: 'Featured: Music Artist Matt Thompson',
+      title: 'Sunset',
+      description: 'A beautiful sunset over the mountains.',
     },
     {
       image: '/images/2.jpeg',
-      // title is omitted here
-      description: 'On the cover: Claire Godard, influencer @reinegodard',
+      title: 'Forest',
+      // No description provided
     },
     {
       image: '/images/3.jpeg',
-      // No title or description
-    },
-
-    {
-      image: '/images/4.jpeg',
-      // No title or description
-    },
-
-    {
-      image: '/images/5.jpeg',
-      // No title or description
-    },
-
-    {
-      image: '/images/6.jpeg',
-      // No title or description
+      // No title or description provided
     },
   ];
+  
   return (
     <div className="App">
       {/* Hero Section: FullWidthPhoto with overlaid Header */}

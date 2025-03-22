@@ -1,64 +1,66 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import './Gallery.css';
 
-interface GalleryItem {
+export interface GalleryItem {
   image: string;
   title?: string;
   description?: string;
 }
 
-interface GalleryProps {
+export interface GalleryProps {
   items: GalleryItem[];
 }
 
-const SWIPE_THRESHOLD = 50; // Minimum horizontal drag (in px) to register as a swipe
+const SWIPE_THRESHOLD = 80; // pixels to trigger a swipe
 
 const Gallery: React.FC<GalleryProps> = ({ items }) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  // For swiping when not zoomed in
-  const [swipeStartX, setSwipeStartX] = useState<number | null>(null);
-  const [swipeOffset, setSwipeOffset] = useState(0);
-
-  // For pinch-to-zoom and pan
+  // ----- Zoom / Pinch States -----
+  const [pinchMode, setPinchMode] = useState(false);
+  const [initialPinchDistance, setInitialPinchDistance] = useState<number | null>(null);
   const [scale, setScale] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [initialPinchDistance, setInitialPinchDistance] = useState<number | null>(null);
-  const [lastTouchPositions, setLastTouchPositions] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [lastTouchPositions, setLastTouchPositions] = useState({ x: 0, y: 0 });
 
-  // For smooth transitions after the gesture ends
+  // ----- Swipe States (only when scale === 1) -----
+  const [swipeStartX, setSwipeStartX] = useState<number | null>(null);
+  const [swipeOffset, setSwipeOffset] = useState(0);
   const [transitionEnabled, setTransitionEnabled] = useState(false);
 
-  // Disable background scrolling when modal is open
-  useEffect(() => {
-    if (selectedIndex !== null) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+  // ----- Carousel Container Width -----
+  const modalContentRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  // Measure container width when modal opens or on window resize
+  useLayoutEffect(() => {
+    const measureWidth = () => {
+      if (modalContentRef.current) {
+        setContainerWidth(modalContentRef.current.getBoundingClientRect().width);
+      }
+    };
+    measureWidth();
+    window.addEventListener('resize', measureWidth);
+    return () => window.removeEventListener('resize', measureWidth);
   }, [selectedIndex]);
 
-  // Reset zoom/swipe states when the modal opens/closes or the image changes
+  // Reset gesture states when modal changes
   useEffect(() => {
+    setPinchMode(false);
+    setInitialPinchDistance(null);
     setScale(1);
     setOffset({ x: 0, y: 0 });
     setSwipeOffset(0);
     setSwipeStartX(null);
     setTransitionEnabled(false);
-    setInitialPinchDistance(null);
   }, [selectedIndex]);
 
-  // Open modal at a given index
-  const openModal = (index: number) => {
-    setSelectedIndex(index);
-  };
+  // Prevent background scrolling when modal is open
+  useEffect(() => {
+    document.body.style.overflow = selectedIndex !== null ? 'hidden' : '';
+  }, [selectedIndex]);
 
-  // Close the modal
-  const closeModal = () => {
-    setSelectedIndex(null);
-  };
-
-  // Go to the previous image (wraps around)
+  // Helpers to cycle images
   const goToPrevious = useCallback(() => {
     setSelectedIndex((prev) => {
       if (prev === null) return null;
@@ -66,7 +68,6 @@ const Gallery: React.FC<GalleryProps> = ({ items }) => {
     });
   }, [items.length]);
 
-  // Go to the next image (wraps around)
   const goToNext = useCallback(() => {
     setSelectedIndex((prev) => {
       if (prev === null) return null;
@@ -74,104 +75,142 @@ const Gallery: React.FC<GalleryProps> = ({ items }) => {
     });
   }, [items.length]);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    // Disable transitions while actively touching
+  const currentIndex = selectedIndex ?? 0;
+  const prevIndex = (currentIndex - 1 + items.length) % items.length;
+  const nextIndex = (currentIndex + 1) % items.length;
+
+  const openModal = (index: number) => setSelectedIndex(index);
+  const closeModal = () => setSelectedIndex(null);
+
+  // ----- Touch Handlers -----
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     setTransitionEnabled(false);
+
     if (e.touches.length === 2) {
-      // Start pinch-to-zoom
-      const touch1 = e.touches[0];
-      const touch2 = e.touches[1];
-      const dx = touch2.clientX - touch1.clientX;
-      const dy = touch2.clientY - touch1.clientY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      setInitialPinchDistance(distance);
-      // Use midpoint for potential future panning calculations
+      // Pinch-to-zoom
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      setPinchMode(true);
+      const dx = t2.clientX - t1.clientX;
+      const dy = t2.clientY - t1.clientY;
+      setInitialPinchDistance(Math.sqrt(dx * dx + dy * dy));
       setLastTouchPositions({
-        x: (touch1.clientX + touch2.clientX) / 2,
-        y: (touch1.clientY + touch2.clientY) / 2,
+        x: (t1.clientX + t2.clientX) / 2,
+        y: (t1.clientY + t2.clientY) / 2,
       });
     } else if (e.touches.length === 1) {
+      const touch = e.touches[0];
       if (scale > 1) {
-        // Start panning a zoomed image
-        setLastTouchPositions({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+        // Pan zoomed image
+        setLastTouchPositions({ x: touch.clientX, y: touch.clientY });
       } else {
-        // Start a swipe gesture when not zoomed in
-        setSwipeStartX(e.touches[0].clientX);
+        // Begin swipe gesture
+        setSwipeStartX(touch.clientX);
       }
     }
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (e.touches.length === 2 && initialPinchDistance) {
-      // Handle pinch-to-zoom
-      const touch1 = e.touches[0];
-      const touch2 = e.touches[1];
-      const dx = touch2.clientX - touch1.clientX;
-      const dy = touch2.clientY - touch1.clientY;
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    // Handle pinch-to-zoom
+    if (pinchMode && e.touches.length === 2 && initialPinchDistance) {
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      const dx = t2.clientX - t1.clientX;
+      const dy = t2.clientY - t1.clientY;
       const distance = Math.sqrt(dx * dx + dy * dy);
       const newScale = distance / initialPinchDistance;
-      setScale(newScale);
-    } else if (e.touches.length === 1) {
-      if (scale > 1) {
-        // Pan the zoomed image
-        const currentPos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        const deltaX = currentPos.x - lastTouchPositions.x;
-        const deltaY = currentPos.y - lastTouchPositions.y;
-        setOffset((prev) => ({ x: prev.x + deltaX, y: prev.y + deltaY }));
-        setLastTouchPositions(currentPos);
-      } else {
-        // Handle swipe movement when not zoomed
-        if (swipeStartX !== null) {
-          const currentX = e.touches[0].clientX;
-          setSwipeOffset(currentX - swipeStartX);
-        }
-      }
+      setScale(newScale < 1 ? 1 : newScale);
+      return;
+    }
+
+    // Handle panning when zoomed in
+    if (scale > 1 && e.touches.length === 1) {
+      const { clientX, clientY } = e.touches[0];
+      const deltaX = clientX - lastTouchPositions.x;
+      const deltaY = clientY - lastTouchPositions.y;
+      setOffset((prev) => ({ x: prev.x + deltaX, y: prev.y + deltaY }));
+      setLastTouchPositions({ x: clientX, y: clientY });
+      return;
+    }
+
+    // Handle swipe if not zoomed in
+    if (!pinchMode && scale === 1 && e.touches.length === 1 && swipeStartX !== null) {
+      const currentX = e.touches[0].clientX;
+      const dragDistance = currentX - swipeStartX;
+      // Limit drag distance based on container width
+      const limitedDrag = Math.max(Math.min(dragDistance, containerWidth), -containerWidth);
+      setSwipeOffset(limitedDrag);
     }
   };
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
     if (e.touches.length === 0) {
-      // Enable transition for a smooth end-of-gesture effect
       setTransitionEnabled(true);
-      if (initialPinchDistance) {
-        // End of pinch gesture
-        if (scale < 1) {
-          setScale(1); // prevent zooming out below 1
-        }
-        setInitialPinchDistance(null);
-      }
-      if (scale === 1 && swipeStartX !== null) {
-        // Process swipe only if not zoomed
+
+      if (pinchMode) {
+        // End pinch mode
+        setPinchMode(false);
+        if (scale < 1) setScale(1);
+      } else if (scale === 1 && swipeStartX !== null) {
+        // If swipe exceeds threshold, update current image; otherwise, snap back
         if (Math.abs(swipeOffset) > SWIPE_THRESHOLD) {
           if (swipeOffset < 0) {
             goToNext();
           } else {
             goToPrevious();
           }
+        } else {
+          setSwipeOffset(0);
         }
-        // Reset swipe states
-        setSwipeOffset(0);
         setSwipeStartX(null);
       }
     }
   };
 
-  // Determine the transform style for the modal image:
-  // • When not zoomed (scale === 1) we use horizontal translate for swipe effects.
-  // • When zoomed (scale > 1) we combine panning and zoom.
-  const modalImageStyle =
-    scale === 1
-      ? {
-          transform: `translateX(${swipeOffset}px)`,
-          transition: transitionEnabled ? 'transform 0.3s ease' : 'none',
-        }
-      : {
+  // Render content: if zoomed, show single image; else, show a three-item carousel
+  let content;
+  if (scale > 1) {
+    content = (
+      <img
+        className="modal-image"
+        src={items[currentIndex].image}
+        alt={items[currentIndex].title || `Image ${currentIndex}`}
+        style={{
           transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
           transition: transitionEnabled ? 'transform 0.3s ease' : 'none',
-        };
+        }}
+      />
+    );
+  } else {
+    // Translate the track so the current image is centered
+    const trackTransform = containerWidth
+      ? `translateX(${-containerWidth + swipeOffset}px)`
+      : 'translateX(0px)';
+    content = (
+      <div
+        className="carousel-track"
+        style={{
+          width: containerWidth * 3,
+          transform: trackTransform,
+          transition: transitionEnabled ? 'transform 0.3s ease' : 'none',
+        }}
+      >
+        <div className="carousel-item" style={{ width: containerWidth }}>
+          <img src={items[prevIndex].image} alt="Previous" />
+        </div>
+        <div className="carousel-item" style={{ width: containerWidth }}>
+          <img src={items[currentIndex].image} alt="Current" />
+        </div>
+        <div className="carousel-item" style={{ width: containerWidth }}>
+          <img src={items[nextIndex].image} alt="Next" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="masonry-container">
+      {/* Masonry Layout */}
       <div className="masonry-gallery">
         {items.map((item, index) => (
           <div
@@ -186,20 +225,18 @@ const Gallery: React.FC<GalleryProps> = ({ items }) => {
         ))}
       </div>
 
+      {/* Modal Overlay */}
       {selectedIndex !== null && (
         <div className="modal-overlay" onClick={closeModal}>
           <div
             className="modal-content"
-            onClick={(e) => e.stopPropagation()}
+            ref={modalContentRef}
+            // Allow closing modal by clicking outside the content
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <img
-              src={items[selectedIndex].image}
-              alt={items[selectedIndex].title || `Image ${selectedIndex}`}
-              style={modalImageStyle}
-            />
+            {content}
           </div>
         </div>
       )}
