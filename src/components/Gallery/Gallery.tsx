@@ -20,7 +20,7 @@ const Gallery: React.FC<GalleryProps> = ({ photos }) => {
   };
 
   return (
-    <PhotoProvider onVisibleChange={handleVisibleChange} toolbarRender={() => null}>
+    <PhotoProvider toolbarRender={() => null}>
       <div className="gallery">
         {photos.map((photo, index) => (
           <div className="gallery-item" key={index}>
