@@ -5,37 +5,37 @@ import Events from './components/Events/Events';
 import Header from './components/Header/Header';
 import DressCodeButton from './components/DressCode/DressCode';
 import Attending from './components/RSVP/Attending';
-import Gallery, { GalleryItem } from './components/Gallery/Gallery';
+import Gallery, { GalleryProps, PhotoItem } from './components/Gallery/Gallery';
 
 function App() {
-  const galleryItems: GalleryItem[] = [
+  const galleryItems: PhotoItem[] = [
     {
-      image: '/images/1.jpeg',
-      title: 'Sunset',
+      src: '/images/1.jpeg',
+      alt: 'Sunset',
       description: 'A beautiful sunset over the mountains.',
     },
     {
-      image: '/images/2.jpeg',
-      title: 'Forest',
+      src: '/images/2.jpeg',
+      alt: 'Forest',
       // No description provided
     },
     {
-      image: '/images/3.jpeg',
+      src: '/images/3.jpeg',
       // No title or description provided
     },
 
     {
-      image: '/images/4.jpeg',
+      src: '/images/4.jpeg',
       // No title or description provided
     },
 
     {
-      image: '/images/5.jpeg',
+      src: '/images/5.jpeg',
       // No title or description provided
     },
 
     {
-      image: '/images/6.jpeg',
+      src: '/images/6.jpeg',
       // No title or description provided
     },
   ];
@@ -58,7 +58,7 @@ function App() {
           <Attending />
         </section>
         <section id="gallery">
-          <Gallery items={galleryItems}  />
+          <Gallery photos={galleryItems}  />
         </section>
       </main>
     </div>
