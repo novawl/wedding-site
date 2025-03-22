@@ -23,6 +23,21 @@ function App() {
       image: '/images/3.jpeg',
       // No title or description provided
     },
+
+    {
+      image: '/images/4.jpeg',
+      // No title or description provided
+    },
+
+    {
+      image: '/images/5.jpeg',
+      // No title or description provided
+    },
+
+    {
+      image: '/images/6.jpeg',
+      // No title or description provided
+    },
   ];
   
   return (

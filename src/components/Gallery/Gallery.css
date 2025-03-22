@@ -1,4 +1,4 @@
-/* Masonry Layout */
+/* Container for the entire masonry layout */
 .masonry-container {
   width: 100%;
   max-width: 1200px;
@@ -7,97 +7,79 @@
   box-sizing: border-box;
 }
 
+/* Masonry layout using CSS columns */
 .masonry-gallery {
   column-count: 2;
   column-gap: 1.5rem;
 }
+@media (min-width: 768px) {
+  .masonry-gallery {
+    column-count: 3;
+  }
+}
+@media (min-width: 1024px) {
+  .masonry-gallery {
+    column-count: 4;
+  }
+}
 
+/* Each card in the masonry layout */
 .gallery-card {
   display: inline-block;
   width: 100%;
   margin-bottom: 1.5rem;
-  cursor: pointer;
   break-inside: avoid;
+  cursor: pointer;
 }
 
 .gallery-card img {
   width: 100%;
   height: auto;
   display: block;
-  margin-bottom: 0.5rem;
 }
 
+/* Optional text styling */
 .gallery-card h3 {
   margin: 0.5rem 0 0.25rem;
   font-size: 1.1rem;
 }
-
 .gallery-card p {
   margin: 0;
   font-size: 0.9rem;
   color: #666;
 }
 
-/* Modal Overlay covers entire screen */
+/* Modal overlay (full-screen) */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0,0,0,0.7);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
 }
 
-/* Modal Content now covers the whole screen */
+/* Modal content (slider container) */
 .modal-content {
   position: relative;
-  width: 100vw;
-  height: 100vh;
-  background-color: #000;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90%;
+  background: #000;
   overflow: hidden;
 }
 
-/* Close Button positioned at the top right */
-.close-button {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 10000;
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  color: #fff;
-  cursor: pointer;
+/* Slide styling */
+.modal-slide {
+  text-align: center;
 }
-
-/* Carousel Track (for swipe mode) */
-.carousel-track {
-  display: flex;
-  height: 100%;
-}
-
-/* Each Carousel Item */
-.carousel-item {
-  flex-shrink: 0;
-  height: 100%;
-}
-
-.carousel-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-/* For zoomed image (pinch mode) */
 .modal-image {
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-height: 80vh;
   object-fit: contain;
-  transform-origin: 0 0; /* Use top-left as origin for accurate zoom math */
-  position: relative;
-  z-index: 1;
 }
