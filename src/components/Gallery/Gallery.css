@@ -1,4 +1,4 @@
-/* Container for the entire masonry layout */
+/* Masonry container & gallery remain unchanged */
 .masonry-container {
   width: 100%;
   max-width: 1200px;
@@ -7,32 +7,17 @@
   box-sizing: border-box;
 }
 
-/* Masonry effect using columns */
 .masonry-gallery {
-  column-count: 2; /* Two columns */
-  column-gap: 1.5rem; /* Space between columns */
+  column-count: 2;
+  column-gap: 1.5rem;
 }
 
-/* If you want more columns on bigger screens, add media queries:
-@media (min-width: 768px) {
-  .masonry-gallery {
-    column-count: 3;
-  }
-}
-@media (min-width: 1024px) {
-  .masonry-gallery {
-    column-count: 4;
-  }
-}
-*/
-
-/* Each card in the masonry layout */
 .gallery-card {
-  display: inline-block; /* Important for masonry columns */
+  display: inline-block;
   width: 100%;
   margin-bottom: 1.5rem;
   cursor: pointer;
-  break-inside: avoid; /* Prevent card splitting across columns */
+  break-inside: avoid;
 }
 
 .gallery-card img {
@@ -42,7 +27,6 @@
   margin-bottom: 0.5rem;
 }
 
-/* Titles and descriptions */
 .gallery-card h3 {
   margin: 0.5rem 0 0.25rem;
   font-size: 1.1rem;
@@ -54,7 +38,7 @@
   color: #666;
 }
 
-/* Modal overlay (full-screen) */
+/* Modal overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -68,7 +52,7 @@
   z-index: 9999;
 }
 
-/* Modal content (the image container) */
+/* Modal content container */
 .modal-content {
   position: relative;
   max-width: 90%;
@@ -78,7 +62,7 @@
   overflow: hidden;
 }
 
-/* Image inside the modal */
+/* Remove any CSS transition here so that the inline style takes precedence */
 .modal-content img {
   width: 100%;
   height: auto;
