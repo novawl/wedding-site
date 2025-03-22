@@ -231,11 +231,20 @@ const Gallery: React.FC<GalleryProps> = ({ items }) => {
           <div
             className="modal-content"
             ref={modalContentRef}
-            // Allow closing modal by clicking outside the content
+            onClick={(e) => e.stopPropagation()}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
+            <button
+              className="close-button"
+              onClick={(e) => {
+                e.stopPropagation();
+                closeModal();
+              }}
+            >
+              x
+            </button>
             {content}
           </div>
         </div>
