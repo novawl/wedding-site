@@ -3,6 +3,7 @@ import Slider from 'react-slick';
 import './Gallery.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
 export interface GalleryItem {
   image: string;
@@ -64,14 +65,24 @@ const Gallery: React.FC<GalleryProps> = ({ items }) => {
       {modalOpen && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={closeModal}>×</button>
             <Slider {...sliderSettings}>
               {items.map((item, index) => (
                 <div key={index} className="modal-slide">
-                  {/* 
-                    For pinch-to-zoom, wrap the image in your favorite pinch-to-zoom component.
-                    For example, using react-pinch-zoom-pan, react-medium-image-zoom, etc.
-                  */}
-                  <img src={item.image} alt={item.title || `Image ${index}`} className="modal-image" />
+                  <TransformWrapper>
+                    {({ zoomIn, zoomOut, resetTransform }) => (
+                      <div className="zoom-container">
+                        <div className="zoom-controls">
+                            <button onClick={() => zoomIn()}>+</button>
+                            <button onClick={() => zoomOut()}>-</button>
+                            <button onClick={() => resetTransform()}>Reset</button>
+                        </div>
+                        <TransformComponent>
+                          <img src={item.image} alt={item.title || `Image ${index}`} className="modal-image" />
+                        </TransformComponent>
+                      </div>
+                    )}
+                  </TransformWrapper>
                   {item.title && <h3>{item.title}</h3>}
                   {item.description && <p>{item.description}</p>}
                 </div>

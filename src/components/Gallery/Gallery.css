@@ -71,15 +71,53 @@
   max-height: 90%;
   background: #000;
   overflow: hidden;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Close button */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
 }
 
 /* Slide styling */
 .modal-slide {
   text-align: center;
 }
+
+/* Zoom container styling */
+.zoom-container {
+  position: relative;
+}
+
+/* Zoom controls */
+.zoom-controls {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+}
+.zoom-controls button {
+  margin-right: 5px;
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 3px;
+  padding: 5px 8px;
+  cursor: pointer;
+}
+
+/* Modal image styling */
 .modal-image {
-  width: 100%;
-  height: auto;
+  max-width: 100%;
   max-height: 80vh;
-  object-fit: contain;
+  margin: 0 auto;
+  display: block;
 }
