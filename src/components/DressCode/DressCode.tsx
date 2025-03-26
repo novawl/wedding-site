@@ -1,31 +1,42 @@
 import React, { useState } from 'react';
 import './DressCode.css';
 
-const DressCodeButton: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
+const DressCode: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
 
   return (
-    <>
-      <button className="dresscode-button" onClick={() => setShowModal(true)}>
+    <div className="dress-code-wrapper">
+      <button className="dress-code-btn" onClick={() => setIsVisible(true)}>
         Dress Code
       </button>
-
-      {showModal && (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2>Dress Code</h2>
-            <p>
-              Please wear cocktail attire. Men are encouraged to wear suits and ties,
-              while women are encouraged to wear elegant dresses or cocktail attire.
-            </p>
-            <button className="close-button" onClick={() => setShowModal(false)}>
-              Close
+      {isVisible && (
+        <div 
+          className="modal-overlay" 
+          onClick={() => setIsVisible(false)}
+        >
+          <div 
+            className="modal-content" 
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button 
+              className="close-btn" 
+              onClick={() => setIsVisible(false)}
+            >
+              &times;
             </button>
+            <h2>Dress Code</h2>
+            <p>Light-colored attire is recommended.</p>
+            <p>Preferred hues include pink, lavender, or light blue.</p>
+            <img 
+              className="dress-code-image"
+              src="/images/dress-code-img.png" 
+              alt="Dress Code Visual"
+            />
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
-export default DressCodeButton;
+export default DressCode;
