@@ -20,24 +20,27 @@ const Gallery: React.FC<GalleryProps> = ({ photos }) => {
   };
 
   return (
-    <PhotoProvider toolbarRender={() => null}>
-      <div className="gallery">
-        {photos.map((photo, index) => (
-          <div className="gallery-item" key={index}>
-            <PhotoView src={photo.src}>
-              <img
-                src={photo.src}
-                alt={photo.alt || `Photo ${index + 1}`}
-                className="gallery-image"
-              />
-            </PhotoView>
-            {photo.description && (
-              <div className="gallery-description">{photo.description}</div>
-            )}
-          </div>
-        ))}
-      </div>
-    </PhotoProvider>
+    <div className="gallery-container">
+        <h2 className="gallery-title">Gallery</h2>
+        <PhotoProvider toolbarRender={() => null}>
+            <div className="gallery">
+                {photos.map((photo, index) => (
+                <div className="gallery-item" key={index}>
+                    <PhotoView src={photo.src}>
+                    <img
+                        src={photo.src}
+                        alt={photo.alt || `Photo ${index + 1}`}
+                        className="gallery-image"
+                    />
+                    </PhotoView>
+                    {photo.description && (
+                    <div className="gallery-description">{photo.description}</div>
+                    )}
+                </div>
+                ))}
+            </div>
+        </PhotoProvider>
+    </div>
   );
 };
 

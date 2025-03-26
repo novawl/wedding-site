@@ -2,7 +2,22 @@
   column-count: 2;
   column-gap: 16px;
   margin: 0;
-  padding: 0;
+  padding: 16px;
+}
+
+.gallery-container {
+  font-family: 'EB Garamond', serif;
+}
+
+.gallery-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  margin-top: 2.4rem;
+  margin-bottom: 1rem;
+  color: #4B575E;
 }
 
 .gallery-item {
