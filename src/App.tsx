@@ -5,7 +5,7 @@ import Events from './components/Events/Events';
 import Header from './components/Header/Header';
 import { FaHeartbeat } from "react-icons/fa";
 import Attending from './components/RSVP/Attending';
-import Gallery, { GalleryProps, PhotoItem } from './components/Gallery/Gallery';
+import Gallery, { PhotoItem } from './components/Gallery/Gallery';
 
 function App() {
   const galleryItems: PhotoItem[] = [
@@ -19,10 +19,10 @@ function App() {
     },
     {
       src: '/images/3.jpeg',
+      description: 'Liam: Don\'t even think about touching the housework in this house!',
     },
     {
       src: '/images/4.jpeg',
-      description: 'Liam: Don\'t even think about touching the housework in this house!',
     },
     {
       src: '/images/5.jpeg',
@@ -41,9 +41,6 @@ function App() {
         <FullWidthPhoto />
       </section>
       <main>
-        {/* <section id="dresscode" style={{ margin: '2rem 0', textAlign: 'center' }}>
-          <DressCodeButton />
-        </section> */}
         <section id="events">
           <Events />
         </section>
