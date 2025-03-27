@@ -12,31 +12,24 @@ function App() {
     {
       src: '/images/1.jpeg',
       alt: 'Sunset',
-      description: 'A beautiful sunset over the mountains.',
+      description: 'We crushed every level of Overcooked with 3 stars!',
     },
     {
       src: '/images/2.jpeg',
-      alt: 'Forest',
-      // No description provided
     },
     {
       src: '/images/3.jpeg',
-      // No title or description provided
     },
-
     {
       src: '/images/4.jpeg',
-      // No title or description provided
+      description: 'Liam: Don\'t even think about touching the housework in this house!',
     },
-
     {
       src: '/images/5.jpeg',
-      // No title or description provided
+      description: 'We hug even when we argue.'
     },
-
     {
       src: '/images/6.jpeg',
-      // No title or description provided
     },
   ];
   
