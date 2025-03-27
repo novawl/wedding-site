@@ -3,7 +3,7 @@ import './App.css';
 import FullWidthPhoto from './components/FullWidthPhoto/FullWidthPhoto';
 import Events from './components/Events/Events';
 import Header from './components/Header/Header';
-import DressCodeButton from './components/DressCode/DressCode';
+import { FaHeartbeat } from "react-icons/fa";
 import Attending from './components/RSVP/Attending';
 import Gallery, { GalleryProps, PhotoItem } from './components/Gallery/Gallery';
 
@@ -47,12 +47,15 @@ function App() {
         <section id="events">
           <Events />
         </section>
-        <section id="attending">
+        <section id="rsvp">
           <Attending />
         </section>
         <section id="gallery">
           <Gallery photos={galleryItems}  />
         </section>
+        <div className='App-footer'>
+          Created by Liam & Nicole with lots of love <FaHeartbeat className="heart-icon" />
+        </div>
       </main>
     </div>
   );

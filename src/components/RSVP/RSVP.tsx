@@ -159,7 +159,6 @@ const RSVPForm: React.FC = () => {
                     }
                   }}
                   rows={1}
-                  required
                 />
               </div>
 

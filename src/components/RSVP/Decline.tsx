@@ -125,7 +125,7 @@ const DeclineForm: React.FC = () => {
               </div>
 
               <button type="submit" className="decline-submit-button">
-                Sorry, I can’t make it
+                Best wishes!
               </button>
             </form>
           </div>

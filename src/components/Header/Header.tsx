@@ -26,7 +26,7 @@ const Header: React.FC = () => {
 
           {/* Right-aligned RSVP button */}
           <li className="nav-item nav-button">
-            <a href="#attending">RSVP</a>
+            <a href="#rsvp">RSVP</a>
           </li>
         </ul>
       </nav>

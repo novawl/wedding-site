@@ -38,3 +38,18 @@
     transform: rotate(360deg);
   }
 }
+
+.App-footer {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.7rem;
+  color: #4B575E;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heart-icon {
+  font-size: 0.7rem;
+  padding-left: 5px;
+}
