@@ -52,7 +52,6 @@
   justify-content: left;
   align-items: center;
   font-size: 0.8rem;
-  margin-bottom: 0.2rem;
   margin: 5px;
 }
 
@@ -61,6 +60,7 @@
   justify-content: left;
   font-size: 0.8rem;
   margin: 5px;
+  margin-bottom: 3px;
 }
 
 .location-icon {

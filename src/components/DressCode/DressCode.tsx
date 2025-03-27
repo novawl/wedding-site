@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { PiDressLight } from "react-icons/pi";
+
 import './DressCode.css';
 
 const DressCode: React.FC = () => {
@@ -7,7 +9,8 @@ const DressCode: React.FC = () => {
   return (
     <div className="dress-code-wrapper">
       <button className="dress-code-btn" onClick={() => setIsVisible(true)}>
-        Dress Code
+        <PiDressLight className="dress-icon"/>
+        Dress code
       </button>
       {isVisible && (
         <div 

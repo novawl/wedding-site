@@ -69,7 +69,6 @@
   }
   
   .nav-button:hover {
-    background-color: #fff;
+    background-color: none;
     color: #4B575E;
   }
-  

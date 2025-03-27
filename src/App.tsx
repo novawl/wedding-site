@@ -60,9 +60,6 @@ function App() {
         <section id="gallery">
           <Gallery photos={galleryItems}  />
         </section>
-        <section id="dresscode">
-          <DressCodeButton  />
-        </section>
       </main>
     </div>
   );

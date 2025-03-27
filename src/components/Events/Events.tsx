@@ -1,6 +1,7 @@
 import React from 'react';
 import './Events.css';
 import { FaMapMarkerAlt } from 'react-icons/fa';
+import DressCode from '../DressCode/DressCode';
 
 const Events: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const Events: React.FC = () => {
           {'Ellen Browning Scripps Park'}
         </p>
         <p className="event-address">{'1100 Coast Blvd, La Jolla, CA 92037'}</p>
+        <DressCode/>
       </div>
 
       <div key={1} className="event">

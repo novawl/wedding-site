@@ -21,12 +21,12 @@ const Header: React.FC = () => {
             <a href="#events">Events</a>
             </li>
             <li className="nav-item">
-            <a href="#dresscode">Dress Code</a>
+            <a href="#gallery">Gallery</a>
             </li>
 
           {/* Right-aligned RSVP button */}
           <li className="nav-item nav-button">
-            <a href="#rsvp">RSVP</a>
+            <a href="#attending">RSVP</a>
           </li>
         </ul>
       </nav>

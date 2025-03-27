@@ -2,26 +2,20 @@
     position: relative;
     font-family: 'EB Garamond', serif;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
   }
 
-  .dress-code-btn {
-    background-color: #4B575E;
-    color: #fff;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    border-radius: 8px;
-    font-family: 'EB Garamond', serif;
-    /* Remove the fixed height if not needed */
-    height: 2.1rem;
-    width: 10rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.dress-code-btn {
+  background: none;
+  color: #4B575E;
+  border: none;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: 'EB Garamond', serif;
+  display: flex;
+  align-items: center;
+  text-decoration: underline;
 }
 
   /* Modal overlay covers the entire window */
@@ -78,4 +72,10 @@
     background: none;
     border: none;
     cursor: pointer;
+  }
+
+  .dress-icon {
+    margin-right: 0.4rem;
+    color: #4B575E;
+    font-size: 0.8rem;
   }
