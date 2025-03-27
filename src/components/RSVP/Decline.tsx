@@ -3,7 +3,7 @@ import "./RSVP.css";
 
 /* Font Awesome Icons */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 interface DecilneFormData {
   comments: string;
@@ -11,6 +11,7 @@ interface DecilneFormData {
 
 const DeclineForm: React.FC = () => {
   const [showDeclineForm, setShowDeclineForm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Store form data in state (remains even if form is hidden)
   const [declineFormData, setDeclineFormData] = useState<DecilneFormData>({
@@ -64,9 +65,10 @@ const DeclineForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Replace with your actual Apps Script / server endpoint
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxwVpDJLqwj1oJkuV8AkHBd08SVi75malu8I2hgWYLwjy64l0WixE40FclqnBtK9hY/exec";
+    const scriptURL =
+      "https://script.google.com/macros/s/AKfycbxwVpDJLqwj1oJkuV8AkHBd08SVi75malu8I2hgWYLwjy64l0WixE40FclqnBtK9hY/exec";
     try {
+      setIsSubmitting(true);
       const response = await fetch(scriptURL, {
         method: "POST",
         headers: {
@@ -74,7 +76,7 @@ const DeclineForm: React.FC = () => {
         },
         body: new URLSearchParams({
           ...declineFormData,
-          type: "wishes"
+          type: "wishes",
         }).toString(),
       });
       if (response.ok) {
@@ -90,12 +92,14 @@ const DeclineForm: React.FC = () => {
     } catch (error) {
       console.error("Error submitting form:", error);
       alert("Error submitting form. Check console for details.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="rsvp-wrapper">
-      {/* The button that toggles the RSVP prompt */}
+      {/* The button that toggles the decline prompt */}
       <button className="decline-button" onClick={() => setShowDeclineForm(true)}>
         Decline with regret
       </button>
@@ -116,16 +120,24 @@ const DeclineForm: React.FC = () => {
                   onChange={(e) => {
                     handleChange(e);
                     if (commentsTextAreaRef2.current) {
-                        commentsTextAreaRef2.current.style.height = "auto";
-                        commentsTextAreaRef2.current.style.height = `${commentsTextAreaRef2.current.scrollHeight}px`;
+                      commentsTextAreaRef2.current.style.height = "auto";
+                      commentsTextAreaRef2.current.style.height = `${commentsTextAreaRef2.current.scrollHeight}px`;
                     }
                   }}
                   rows={1}
                 />
               </div>
 
-              <button type="submit" className="decline-submit-button">
-                Best wishes!
+              <button
+                type="submit"
+                className="decline-submit-button"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <FontAwesomeIcon icon={faSpinner} spin />
+                ) : (
+                  "Best wishes!"
+                )}
               </button>
             </form>
           </div>
